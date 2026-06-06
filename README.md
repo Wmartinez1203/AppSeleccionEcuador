@@ -85,19 +85,3 @@ Al no utilizar librerías externas de enrutamiento pesado en este prototipo, el 
 * **Paleta de Colores Corporativa:** Estilos personalizados que replican los colores oficiales de la federación (`#002447` para el azul marino institucional y `#FFCC00` para el amarillo oro).
 
 ---
-
-Desarrollado con ❤️ por **Nando Martínez** para la materia de Dispositivos Móviles.
-
-```
-
-***
-
-### 📤 Comandos finales para subirlo a tu GitHub:
-Abre tu terminal integrada en VS Code y corre estos 3 comandos rápidos para actualizar tu repositorio en la nube con este archivo:
-
-```bash
-git add README.md
-git commit -m "Docs: Se crea el README.md en formato Markdown con la guía del proyecto"
-git push
-
-```
