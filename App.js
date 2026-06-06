@@ -13,15 +13,16 @@ import {
 } from 'react-native';
 
 export default function App() {
-  // Estado para controlar el ciclo de vida de la pantalla de bienvenida (Splash Screen)
+  // 1. REQUISITO: Control del ciclo de vida para la Splash Screen
   const [mostrarSplash, setMostrarSplash] = useState(true);
 
-  // Temporizador asíncrono para cumplir con la duración visible de 3 segundos
+  // 2. REQUISITO: Duración visible estricta de 3 segundos (3000ms)
   useEffect(() => {
     const temporizador = setTimeout(() => {
       setMostrarSplash(false);
     }, 3000);
 
+    // Limpieza del temporizador al desmontar el componente
     return () => clearTimeout(temporizador);
   }, []);
 
@@ -35,7 +36,7 @@ export default function App() {
   };
 
   // -------------------------------------------------------------
-  // 2.1 COMPONENTE: SPLASH SCREEN (PANTALLA DE BIENVENIDA)
+  // 2.1 REQUISITO: SPLASH SCREEN (PANTALLA DE BIENVENIDA)
   // -------------------------------------------------------------
   if (mostrarSplash) {
     return (
@@ -43,7 +44,7 @@ export default function App() {
         <StatusBar barStyle="light-content" backgroundColor="#003DA5" />
         
         <View style={styles.splashContent}>
-          {/* REQUISITO: Logo oficial centrado en pantalla */}
+          {/* REQUISITO: Logo oficial centrado en pantalla desde recurso local */}
           <Image 
             source={require('./assets/LogoEcuador.png')} 
             style={styles.splashLogo}
@@ -53,6 +54,7 @@ export default function App() {
           <Text style={styles.splashTitle}>Ecuador - La Tri</Text>
           <Text style={styles.splashSubtitle}>Federación Ecuatoriana de Fútbol</Text>
           
+          {/* Indicador de carga animado acorde a los colores del equipo */}
           <ActivityIndicator size="large" color="#FFCC00" style={styles.splashLoader} />
         </View>
       </SafeAreaView>
@@ -60,7 +62,7 @@ export default function App() {
   }
 
   // -------------------------------------------------------------
-  // 2.2 COMPONENTE: HOME SCREEN (PANTALLA DE INICIO PRINCIPAL)
+  // 2.2 REQUISITO: HOME SCREEN (PANTALLA DE INICIO PRINCIPAL)
   // -------------------------------------------------------------
   return (
     <SafeAreaView style={styles.homeContainer}>
@@ -73,7 +75,7 @@ export default function App() {
 
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         
-        {/* REQUISITO: Imagen del escudo o logo de la Selección también en el Home */}
+        {/* REQUISITO: Imagen del escudo o logo de la Selección en el Home */}
         <View style={styles.homeLogoContainer}>
           <Image 
             source={require('./assets/LogoEcuador.png')} 
@@ -83,7 +85,7 @@ export default function App() {
           <Text style={styles.homeTeamName}>SELECCIÓN NACIONAL</Text>
         </View>
 
-        {/* REQUISITO: Al menos 3 datos básicos del equipo */}
+        {/* REQUISITO: Datos básicos del equipo según la rúbrica */}
         <View style={styles.infoCard}>
           <Text style={styles.cardSectionTitle}>Datos del Equipo 🇪🇨</Text>
           <View style={styles.cardDivider} />
@@ -95,7 +97,7 @@ export default function App() {
           
           <View style={styles.infoRowData}>
             <Text style={styles.boldText}>Entrenador:</Text>
-            <Text style={styles.normalText}>Director Técnico Oficial</Text>
+            <Text style={styles.normalText}>Sebastián Beccacece</Text>
           </View>
           
           <View style={styles.infoRowData}>
@@ -104,7 +106,7 @@ export default function App() {
           </View>
         </View>
 
-        {/* REQUISITO: Botón o elemento interactivo que muestra un mensaje */}
+        {/* REQUISITO: Botón o elemento interactivo */}
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.btnInteractivo} onPress={mostrarMensajeAliento}>
             <Text style={styles.btnTexto}>📢 Enviar Mensaje de Aliento</Text>
