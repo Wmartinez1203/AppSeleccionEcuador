@@ -7,43 +7,52 @@ import {
   SafeAreaView, 
   StatusBar, 
   ActivityIndicator, 
-  ScrollView 
+  ScrollView, 
+  TouchableOpacity,
+  Alert 
 } from 'react-native';
 
 export default function App() {
   // Estado para controlar el ciclo de vida de la pantalla de bienvenida (Splash Screen)
   const [mostrarSplash, setMostrarSplash] = useState(true);
 
-  // Temporizador asíncrono para simular la precarga de recursos (3 segundos)
+  // Temporizador asíncrono para cumplir con la duración visible de 3 segundos
   useEffect(() => {
     const temporizador = setTimeout(() => {
       setMostrarSplash(false);
     }, 3000);
 
-    // Limpieza del efecto para prevenir fugas de memoria
     return () => clearTimeout(temporizador);
   }, []);
 
+  // Función interactiva para el botón de la Home Screen
+  const mostrarMensajeAliento = () => {
+    Alert.alert(
+      "¡SÍ SE PUEDE!",
+      "Apoyando siempre a la Selección Ecuatoriana de Fútbol. ¡Vamos por la gloria! 🇪🇨⚽",
+      [{ text: "¡Entendido!", style: "default" }]
+    );
+  };
+
   // -------------------------------------------------------------
-  // 1. COMPONENTE: SPLASH SCREEN (PANTALLA DE BIENVENIDA)
+  // 2.1 COMPONENTE: SPLASH SCREEN (PANTALLA DE BIENVENIDA)
   // -------------------------------------------------------------
   if (mostrarSplash) {
     return (
       <SafeAreaView style={styles.splashContainer}>
-        {/* Barra de estado adaptada al tono oscuro institucional */}
-        <StatusBar barStyle="light-content" backgroundColor="#002447" />
+        <StatusBar barStyle="light-content" backgroundColor="#003DA5" />
         
         <View style={styles.splashContent}>
-          {/* Logo Local de la Federación Ecuatoriana de Fútbol (FEF) desde assets */}
+          {/* REQUISITO: Logo oficial centrado en pantalla */}
           <Image 
             source={require('./assets/LogoEcuador.png')} 
             style={styles.splashLogo}
             resizeMode="contain"
           />
-          <Text style={styles.splashTitle}>LA TRI</Text>
+          {/* REQUISITO: Texto específico debajo del logo */}
+          <Text style={styles.splashTitle}>Ecuador - La Tri</Text>
           <Text style={styles.splashSubtitle}>Federación Ecuatoriana de Fútbol</Text>
           
-          {/* Feedback de carga interactiva */}
           <ActivityIndicator size="large" color="#FFCC00" style={styles.splashLoader} />
         </View>
       </SafeAreaView>
@@ -51,82 +60,60 @@ export default function App() {
   }
 
   // -------------------------------------------------------------
-  // 2. COMPONENTE: HOME SCREEN (PANTALLA DE INICIO)
+  // 2.2 COMPONENTE: HOME SCREEN (PANTALLA DE INICIO PRINCIPAL)
   // -------------------------------------------------------------
   return (
     <SafeAreaView style={styles.homeContainer}>
-      {/* Barra de estado adaptada al tono corporativo superior */}
       <StatusBar barStyle="dark-content" backgroundColor="#FFCC00" />
       
-      {/* Cabecera de la Aplicación (Navbar) */}
+      {/* REQUISITO: Encabezado o título con el nombre del equipo */}
       <View style={styles.navbar}>
-        <Text style={styles.navbarTitle}>Ecuador - Selección Oficial</Text>
+        <Text style={styles.navbarTitle}>Federación Ecuatoriana de Fútbol</Text>
       </View>
 
-      {/* Contenedor con Scroll para prevenir desbordamientos en pantallas compactas */}
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         
-        {/* Banner Representativo de la Selección */}
-        <Image 
-          source={{ uri: 'https://www.fef.ec/wp-content/uploads/2023/09/PORTADA-CONVOCADOS-WEB.jpg' }} 
-          style={styles.homeBanner}
-          resizeMode="cover"
-        />
+        {/* REQUISITO: Imagen del escudo o logo de la Selección también en el Home */}
+        <View style={styles.homeLogoContainer}>
+          <Image 
+            source={require('./assets/LogoEcuador.png')} 
+            style={styles.homeLogo}
+            resizeMode="contain"
+          />
+          <Text style={styles.homeTeamName}>SELECCIÓN NACIONAL</Text>
+        </View>
 
-        {/* Tarjeta de Información General */}
+        {/* REQUISITO: Al menos 3 datos básicos del equipo */}
         <View style={styles.infoCard}>
-          <Text style={styles.cardSectionTitle}>Información Institucional 🇪🇨</Text>
+          <Text style={styles.cardSectionTitle}>Datos del Equipo 🇪🇨</Text>
           <View style={styles.cardDivider} />
           
           <View style={styles.infoRowData}>
-            <Text style={styles.boldText}>Apodo oficial:</Text>
-            <Text style={styles.normalText}> La Tri / La Tricolor</Text>
-          </View>
-          
-          <View style={styles.infoRowData}>
-            <Text style={styles.boldText}>Organismo:</Text>
-            <Text style={styles.normalText}> Fed. Ecuatoriana de Fútbol (FEF)</Text>
-          </View>
-          
-          <View style={styles.infoRowData}>
             <Text style={styles.boldText}>Confederación:</Text>
-            <Text style={styles.normalText}> CONMEBOL</Text>
+            <Text style={styles.normalText}>CONMEBOL</Text>
+          </View>
+          
+          <View style={styles.infoRowData}>
+            <Text style={styles.boldText}>Entrenador:</Text>
+            <Text style={styles.normalText}>Director Técnico Oficial</Text>
           </View>
           
           <View style={styles.infoRowData}>
             <Text style={styles.boldText}>Estadio Sede:</Text>
-            <Text style={styles.normalText}> Rodrigo Paz Delgado (Quito)</Text>
+            <Text style={styles.normalText}>Estadio Rodrigo Paz Delgado (Quito)</Text>
           </View>
         </View>
 
-        {/* Sección de Hitos Históricos */}
-        <Text style={styles.sectionTitle}>Grandes Hitos Históricos</Text>
-        
-        {/* Item Histórico 1 */}
-        <View style={styles.hitoContainer}>
-          <View style={styles.hitoBadge}>
-            <Text style={styles.hitoIcon}>🏆</Text>
-          </View>
-          <View style={styles.hitoTextContent}>
-            <Text style={styles.hitoTitle}>Asistencias Mundialistas</Text>
-            <Text style={styles.hitoDesc}>Corea-Japón 2002, Alemania 2006, Brasil 2014, y Qatar 2022.</Text>
-          </View>
-        </View>
-
-        {/* Item Histórico 2 */}
-        <View style={styles.hitoContainer}>
-          <View style={styles.hitoBadge}>
-            <Text style={styles.hitoIcon}>⭐</Text>
-          </View>
-          <View style={styles.hitoTextContent}>
-            <Text style={styles.hitoTitle}>Máximo Logro en Copas del Mundo</Text>
-            <Text style={styles.hitoDesc}>Clasificación histórica a Octavos de Final en Alemania 2006.</Text>
-          </View>
+        {/* REQUISITO: Botón o elemento interactivo que muestra un mensaje */}
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity style={styles.btnInteractivo} onPress={mostrarMensajeAliento}>
+            <Text style={styles.btnTexto}>📢 Enviar Mensaje de Aliento</Text>
+          </TouchableOpacity>
         </View>
 
       </ScrollView>
 
-      {/* Pie de Página Académico Institucional */}
+      {/* Pie de Página Académico */}
       <View style={styles.footer}>
         <Text style={styles.footerText}>Desarrollado por: Nando Martínez</Text>
       </View>
@@ -135,13 +122,13 @@ export default function App() {
 }
 
 // -------------------------------------------------------------
-// 3. HOJA DE ESTILOS PROFESIONALES (STYLESHEET)
+// ESTILOS VISUALES CONSISTENTES CON LOS COLORES DE LA TRI
 // -------------------------------------------------------------
 const styles = StyleSheet.create({
-  // Estilos dedicados de la Splash Screen
+  // Splash Screen (Fondo Azul Solicitado #003DA5)
   splashContainer: {
     flex: 1,
-    backgroundColor: '#002447', // Azul marino oficial de la FEF
+    backgroundColor: '#003DA5', 
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -150,66 +137,79 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   splashLogo: {
-    width: 180,
-    height: 180,
-    marginBottom: 24,
+    width: 190,
+    height: 190,
+    marginBottom: 20,
   },
   splashTitle: {
-    fontSize: 38,
+    fontSize: 34,
     fontWeight: '900',
-    color: '#FFCC00', // Amarillo Oro Ecuador
-    letterSpacing: 3,
+    color: '#FFCC00', // Amarillo Tri
+    letterSpacing: 1,
   },
   splashSubtitle: {
     fontSize: 14,
     color: '#FFFFFF',
     marginTop: 6,
-    opacity: 0.7,
-    fontWeight: '500',
+    opacity: 0.8,
   },
   splashLoader: {
-    marginTop: 32,
+    marginTop: 30,
   },
 
-  // Estilos dedicados de la Home Screen
+  // Home Screen (Fondo Gris Premium y detalles Amarillo/Azul)
   homeContainer: {
     flex: 1,
-    backgroundColor: '#F8FAFC', // Fondo gris claro premium
+    backgroundColor: '#F8FAFC',
   },
   navbar: {
-    backgroundColor: '#FFCC00',
+    backgroundColor: '#FFCC00', // Amarillo Oficial
     paddingVertical: 16,
     alignItems: 'center',
     borderBottomWidth: 3,
-    borderBottomColor: '#002447',
+    borderBottomColor: '#003DA5',
   },
   navbarTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#002447',
+    color: '#003DA5',
   },
   scrollContent: {
     paddingBottom: 24,
   },
-  homeBanner: {
-    width: '100%',
-    height: 190,
+  homeLogoContainer: {
+    alignItems: 'center',
+    backgroundColor: '#FFFFFF',
+    paddingVertical: 24,
+    borderBottomWidth: 1,
+    borderColor: '#E2E8F0',
+  },
+  homeLogo: {
+    width: 120,
+    height: 120,
+    marginBottom: 10,
+  },
+  homeTeamName: {
+    fontSize: 16,
+    fontWeight: '800',
+    color: '#003DA5',
+    letterSpacing: 2,
   },
   infoCard: {
     backgroundColor: '#FFFFFF',
     margin: 16,
     borderRadius: 14,
     padding: 20,
-    shadowColor: '#0F172A',
-    shadowOffset: { width: 0, height: 4 },
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.05,
-    shadowRadius: 12,
-    elevation: 3, // Sombras nativas para dispositivos Android
+    shadowRadius: 8,
+    elevation: 3,
   },
   cardSectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    color: '#002447',
+    color: '#003DA5',
     marginBottom: 10,
   },
   cardDivider: {
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
   },
   infoRowData: {
     flexDirection: 'row',
-    marginBottom: 10,
+    marginBottom: 12,
     alignItems: 'center',
   },
   boldText: {
@@ -233,49 +233,25 @@ const styles = StyleSheet.create({
     fontSize: 14,
     flex: 1,
   },
-  sectionTitle: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#002447',
-    marginLeft: 16,
-    marginTop: 8,
-    marginBottom: 12,
+  buttonContainer: {
+    paddingHorizontal: 16,
+    marginTop: 10,
   },
-  hitoContainer: {
-    flexDirection: 'row',
-    backgroundColor: '#FFFFFF',
-    marginHorizontal: 16,
-    marginBottom: 12,
+  btnInteractivo: {
+    backgroundColor: '#003DA5', // Azul Tri
     borderRadius: 12,
-    padding: 16,
+    paddingVertical: 16,
     alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#E2E8F0',
+    shadowColor: '#003DA5',
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.2,
+    shadowRadius: 6,
+    elevation: 4,
   },
-  hitoBadge: {
-    backgroundColor: '#F8FAFC',
-    padding: 12,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  hitoIcon: {
-    fontSize: 22,
-  },
-  hitoTextContent: {
-    flex: 1,
-    marginLeft: 14,
-  },
-  hitoTitle: {
-    fontSize: 14,
+  btnTexto: {
+    color: '#FFFFFF',
+    fontSize: 16,
     fontWeight: 'bold',
-    color: '#0F172A',
-  },
-  hitoDesc: {
-    fontSize: 12,
-    color: '#64748B',
-    marginTop: 4,
-    lineHeight: 16,
   },
   footer: {
     paddingVertical: 14,
