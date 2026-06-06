@@ -7,8 +7,7 @@ import {
   SafeAreaView, 
   StatusBar, 
   ActivityIndicator, 
-  ScrollView, 
-  TouchableOpacity 
+  ScrollView 
 } from 'react-native';
 
 export default function App() {
@@ -35,9 +34,9 @@ export default function App() {
         <StatusBar barStyle="light-content" backgroundColor="#002447" />
         
         <View style={styles.splashContent}>
-          {/* Logo Oficial de la Federación Ecuatoriana de Fútbol (FEF) */}
+          {/* Logo Local de la Federación Ecuatoriana de Fútbol (FEF) desde assets */}
           <Image 
-            source={{ uri: 'https://images.vavel.com/f/fef-logo-725354922.png' }} 
+            source={require('./assets/LogoEcuador.png')} 
             style={styles.splashLogo}
             resizeMode="contain"
           />
@@ -142,7 +141,7 @@ const styles = StyleSheet.create({
   // Estilos dedicados de la Splash Screen
   splashContainer: {
     flex: 1,
-    backgroundColor: '#002447', // Azul marino oficial
+    backgroundColor: '#002447', // Azul marino oficial de la FEF
     justifyContent: 'center',
     alignItems: 'center',
   },
